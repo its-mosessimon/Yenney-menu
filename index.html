@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YenneY — Menu</title>
+<style>
+  :root{
+    --ink:#1c1a17;
+    --paper:#faf6ef;
+    --card:#ffffff;
+    --accent:#a3231f;
+    --accent-soft:#f4dcd6;
+    --gold:#c08a35;
+    --muted:#8a8178;
+    --line:#e8e0d4;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Georgia', 'Iowan Old Style', serif;
+    background:var(--paper);
+    color:var(--ink);
+    padding-bottom:60px;
+  }
+  header{
+    text-align:center;
+    padding:48px 20px 28px;
+    border-bottom:1px solid var(--line);
+    background:
+      radial-gradient(circle at 50% 0%, rgba(163,35,31,0.06), transparent 60%),
+      var(--paper);
+  }
+  header .eyebrow{
+    letter-spacing:4px;
+    text-transform:uppercase;
+    font-size:11px;
+    color:var(--gold);
+    font-family:Helvetica, Arial, sans-serif;
+    margin-bottom:10px;
+  }
+  header h1{
+    font-size:42px;
+    margin:0;
+    letter-spacing:1px;
+    font-weight:400;
+  }
+  header p{
+    margin:10px 0 0;
+    color:var(--muted);
+    font-size:15px;
+    font-family:Helvetica, Arial, sans-serif;
+  }
+  .search-bar{
+    max-width:520px;
+    margin:26px auto 0;
+    padding:0 20px;
+  }
+  .search-bar input{
+    width:100%;
+    padding:12px 16px;
+    border:1px solid var(--line);
+    border-radius:30px;
+    font-size:15px;
+    font-family:Helvetica, Arial, sans-serif;
+    background:var(--card);
+    outline:none;
+    transition:border-color .2s;
+  }
+  .search-bar input:focus{border-color:var(--accent);}
+
+  nav{
+    position:sticky;
+    top:0;
+    z-index:10;
+    background:rgba(250,246,239,0.96);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    display:flex;
+    gap:6px;
+    overflow-x:auto;
+    padding:14px 16px;
+    font-family:Helvetica, Arial, sans-serif;
+  }
+  nav button{
+    flex:none;
+    border:1px solid var(--line);
+    background:var(--card);
+    color:var(--ink);
+    padding:8px 16px;
+    border-radius:20px;
+    font-size:13px;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:all .15s;
+  }
+  nav button:hover{border-color:var(--accent);}
+  nav button.active{
+    background:var(--accent);
+    color:#fff;
+    border-color:var(--accent);
+  }
+
+  main{max-width:760px;margin:0 auto;padding:30px 20px 0;}
+
+  .category{margin-bottom:44px;}
+  .category h2{
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:3px;
+    color:var(--gold);
+    font-family:Helvetica, Arial, sans-serif;
+    border-bottom:1px solid var(--line);
+    padding-bottom:10px;
+    margin-bottom:18px;
+  }
+
+  .hero{
+    max-width:760px;
+    margin:0 auto;
+    padding:0 20px;
+  }
+  .hero-strip{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding:22px 0 4px;
+    scroll-snap-type:x mandatory;
+  }
+  .hero-strip img{
+    width:220px;
+    height:150px;
+    object-fit:cover;
+    border-radius:10px;
+    flex:none;
+    scroll-snap-align:start;
+    box-shadow:0 4px 14px rgba(0,0,0,0.08);
+  }
+
+  .dish{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:16px;
+    padding:14px 0;
+    border-bottom:1px dashed var(--line);
+    cursor:pointer;
+  }
+  .dish:last-child{border-bottom:none;}
+  .dish-thumb{
+    width:76px;
+    height:76px;
+    border-radius:8px;
+    object-fit:cover;
+    flex:none;
+    background:var(--accent-soft);
+  }
+  .dish-row-inner{
+    display:flex;
+    gap:14px;
+    flex:1;
+    align-items:center;
+  }
+  .dish-info{flex:1;}
+  .dish-name{
+    font-size:18px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .veg-badge{
+    font-size:10px;
+    font-family:Helvetica, Arial, sans-serif;
+    background:#e4f0e0;
+    color:#3f7a2e;
+    border:1px solid #b8d9ac;
+    padding:2px 7px;
+    border-radius:10px;
+    letter-spacing:0.5px;
+  }
+  .dish-desc{
+    font-size:13.5px;
+    color:var(--muted);
+    font-family:Helvetica, Arial, sans-serif;
+    margin-top:4px;
+    line-height:1.5;
+    max-width:520px;
+  }
+  .dish-price{
+    font-size:17px;
+    color:var(--accent);
+    font-weight:bold;
+    white-space:nowrap;
+    font-family:Helvetica, Arial, sans-serif;
+  }
+
+  .empty-state{
+    text-align:center;
+    color:var(--muted);
+    padding:60px 20px;
+    font-family:Helvetica, Arial, sans-serif;
+    display:none;
+  }
+
+  footer{
+    text-align:center;
+    margin-top:50px;
+    padding:24px 20px;
+    font-family:Helvetica, Arial, sans-serif;
+    font-size:12.5px;
+    color:var(--muted);
+    border-top:1px solid var(--line);
+  }
+  footer a{color:var(--accent); text-decoration:none;}
+
+  .hidden{display:none !important;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Marina One · East Tower</div>
+  <h1>YenneY</h1>
+  <p>Vietnamese kitchen — pho, banh mi, spring rolls &amp; more</p>
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search dishes (e.g. pho, banh mi, chicken)">
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-strip" id="heroStrip"></div>
+</div>
+
+<nav id="categoryNav"></nav>
+
+<main id="menuContainer"></main>
+<div class="empty-state" id="emptyState">No dishes match your search.</div>
+
+<footer>
+  7 Straits View, #B2-50, East Tower, Marina One, Singapore 018935 · <a href="tel:+6590494151">+65 9049 4151</a><br>
+  Prices in SGD, subject to change by the restaurant.
+</footer>
+
+<script>
+// Real photos of YenneY's food/space, sourced from the restaurant's own listing photos.
+const PHOTO_BASE = "https://qul.imgix.net/96cac3ee-bdc9-4d82-9e2c-9fa22751b0ed/";
+const photoPool = [
+  PHOTO_BASE + "725085_sld.jpg",
+  PHOTO_BASE + "725084_sld.jpg",
+  PHOTO_BASE + "725080_sld.jpg",
+  PHOTO_BASE + "725083_sld.jpg",
+  PHOTO_BASE + "725082_sld.jpg",
+  PHOTO_BASE + "725081_sld.jpg",
+];
+
+const menu = [
+  {
+    category: "Starters",
+    items: [
+      { name: "Hanoi Fried Spring Rolls (2pcs)", desc: "Delightful combination of fresh and meaty flavor in a crunchy wrap.", price: 6.90, photo: photoPool[2] },
+      { name: "YY Fresh Spring Rolls (2pcs)", desc: "The classic summer rolls with crispy vegetables, prawn and pork.", price: 6.90, photo: photoPool[3] },
+      { name: "Pan Fried Breaded Shrimp", desc: "Golden and crispy on the outside, tender on the inside.", price: 12.90, photo: photoPool[4] },
+    ]
+  },
+  {
+    category: "Noodles",
+    items: [
+      { name: "Hanoi Beef Pho", desc: "Hanoi style pho in aromatic beef broth, topped with thinly cut slices of beef.", price: 15.90, photo: photoPool[0] },
+      { name: "Bun Cha \"Obama\"", desc: "Char-grilled meat, rice noodles and fresh herbs, dipping with fish sauce.", price: 16.90, photo: photoPool[1] },
+      { name: "YY Special Dry Noodle Combo", desc: "Char-grilled meat, vermicelli & herbs with 2 pcs of fried spring rolls.", price: 18.90, photo: photoPool[5] },
+    ]
+  },
+  {
+    category: "Rice Dishes",
+    items: [
+      { name: "Grilled Chicken Rice", desc: "Flame-grilled chicken chop served with fluffy rice.", price: 13.90, photo: photoPool[2] },
+      { name: "Steam Lemongrass Chicken Rice", desc: "Succulent chicken infused with lemongrass essence, served with fluffy rice.", price: 13.90, photo: photoPool[4] },
+      { name: "Vegetarian Fried Rice", desc: "Vegetable fried rice served with 2 pcs of veggie spring rolls and soup.", price: 13.90, veg: true, photo: photoPool[3] },
+    ]
+  },
+  {
+    category: "Sandwiches",
+    items: [
+      { name: "YY BBQ Pork Banh Mi", desc: "Char-grilled pork and herbs in a freshly baked banh mi.", price: 12.90, photo: photoPool[1] },
+      { name: "YY BBQ Chicken Banh Mi", desc: "Char-grilled chicken and herbs in a freshly baked banh mi.", price: 12.90, photo: photoPool[0] },
+      { name: "Wok Fried Beef Banh Mi", desc: "Wok fried beef and herbs in a freshly baked banh mi.", price: 13.90, photo: photoPool[5] },
+    ]
+  }
+];
+
+const nav = document.getElementById('categoryNav');
+const container = document.getElementById('menuContainer');
+const emptyState = document.getElementById('emptyState');
+const searchInput = document.getElementById('searchInput');
+
+let activeCategory = 'All';
+
+function renderHero(){
+  const strip = document.getElementById('heroStrip');
+  strip.innerHTML = photoPool.map(url =>
+    `<img src="${url}" alt="Dish at YenneY" loading="lazy" onerror="this.style.display='none'">`
+  ).join('');
+}
+
+function renderNav(){
+  const cats = ['All', ...menu.map(c => c.category)];
+  nav.innerHTML = cats.map(c =>
+    `<button data-cat="${c}" class="${c === activeCategory ? 'active' : ''}">${c}</button>`
+  ).join('');
+  nav.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeCategory = btn.dataset.cat;
+      renderNav();
+      renderMenu();
+    });
+  });
+}
+
+function renderMenu(){
+  const query = searchInput.value.trim().toLowerCase();
+  container.innerHTML = '';
+  let anyVisible = false;
+
+  menu.forEach(cat => {
+    if(activeCategory !== 'All' && activeCategory !== cat.category) return;
+
+    const filteredItems = cat.items.filter(item =>
+      !query || item.name.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query)
+    );
+    if(filteredItems.length === 0) return;
+
+    anyVisible = true;
+    const section = document.createElement('div');
+    section.className = 'category';
+    section.innerHTML = `<h2>${cat.category}</h2>`;
+
+    filteredItems.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'dish';
+      row.innerHTML = `
+        <div class="dish-row-inner">
+          <img class="dish-thumb" src="${item.photo}" alt="${item.name}" loading="lazy" onerror="this.style.visibility='hidden'">
+          <div class="dish-info">
+            <div class="dish-name">${item.name} ${item.veg ? '<span class="veg-badge">VEG</span>' : ''}</div>
+            <div class="dish-desc">${item.desc}</div>
+          </div>
+        </div>
+        <div class="dish-price">$${item.price.toFixed(2)}</div>
+      `;
+      section.appendChild(row);
+    });
+
+    container.appendChild(section);
+  });
+
+  emptyState.style.display = anyVisible ? 'none' : 'block';
+}
+
+searchInput.addEventListener('input', renderMenu);
+
+renderHero();
+renderNav();
+renderMenu();
+</script>
+
+</body>
+</html>
